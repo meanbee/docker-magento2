@@ -1,0 +1,20 @@
+#!/bin/bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+# If we're using OSX then we need to mess with the permissions
+if [[ "$IS_OSX" = "true" ]]; then
+    echo "OSX flag is set, changing www-data uid/gid"
+
+    usermod -u 501 www-data
+    groupmod -g 9920 dialout # Move dialout from 20 to make room for www-data
+    groupmod -g 20 www-data
+fi
+
+# Configure PHP
+[ ! -z "${PHP_MEMORY_LIMIT}" ] && sed -i "s/!PHP_MEMORY_LIMIT!/${PHP_MEMORY_LIMIT}/" /usr/local/etc/php/conf.d/zz-magento.ini
+
+# Configure PHP-FPM
+[ ! -z "${MAGENTO_RUN_MODE}" ] && sed -i "s/!MAGENTO_RUN_MODE!/${MAGENTO_RUN_MODE}/" /usr/local/etc/php-fpm.conf
+
+exec "$@"

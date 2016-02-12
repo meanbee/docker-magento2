@@ -1,0 +1,29 @@
+#!/bin/bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+# If we're using OSX then we need to mess with the permissions
+if [[ "$IS_OSX" = "true" ]]; then
+    echo "OSX flag is set, changing www-data uid/gid"
+
+    usermod -u 501 www-data
+    groupmod -g 9920 dialout # Move dialout from 20 to make room for www-data
+    groupmod -g 20 www-data
+fi
+
+# Ensure our Magento directory exists
+mkdir -p $MAGENTO_ROOT
+chown www-data:www-data $MAGENTO_ROOT
+
+# Configure PHP
+[ ! -z "${PHP_MEMORY_LIMIT}" ] && sed -i "s/!PHP_MEMORY_LIMIT!/${PHP_MEMORY_LIMIT}/" /usr/local/etc/php/conf.d/zz-magento.ini
+
+# Configure composer
+[ ! -z "${COMPOSER_GITHUB_TOKEN}" ] && \
+    composer config --global github-oauth.github.com $COMPOSER_GITHUB_TOKEN
+
+[ ! -z "${COMPOSER_MAGENTO_USERNAME}" ] && \
+    composer config --global http-basic.repo.magento.com \
+        $COMPOSER_MAGENTO_USERNAME $COMPOSER_MAGENTO_PASSWORD
+
+exec "$@"

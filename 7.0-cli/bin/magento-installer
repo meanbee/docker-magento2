@@ -1,0 +1,47 @@
+#!/bin/bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+# Get composer auth information into an environment variable to avoid "you need
+# to be using an interactive terminal to authenticate".
+COMPOSER_AUTH=`cat /root/.composer/auth.json`
+
+composer --version
+
+echo "Creating Magento ($M2SETUP_VERSION) project from composer"
+
+composer create-project \
+    --repository-url=https://repo.magento.com/ \
+    magento/project-community-edition=$M2SETUP_VERSION \
+    --no-interaction \
+    $MAGENTO_ROOT
+
+echo "Install Magento"
+
+php /magento/bin/magento setup:install \
+  --db-host=$M2SETUP_DB_HOST \
+  --db-name=$M2SETUP_DB_NAME \
+  --db-user=$M2SETUP_DB_USER \
+  --db-password=$M2SETUP_DB_PASSWORD \
+  --base-url=$M2SETUP_BASE_URL \
+  --admin-firstname=$M2SETUP_ADMIN_FIRSTNAME \
+  --admin-lastname=$M2SETUP_ADMIN_LASTNAME \
+  --admin-email=$M2SETUP_ADMIN_EMAIL \
+  --admin-user=$M2SETUP_ADMIN_USER \
+  --admin-password=$M2SETUP_ADMIN_PASSWORD
+
+php /magento/bin/magento index:reindex
+php /magento/bin/magento setup:static-content:deploy
+
+echo "Fixing file permissions.."
+
+sed -i 's/0770/0775/g' $MAGENTO_ROOT/vendor/magento/framework/Filesystem/DriverInterface.php
+sed -i 's/0660/0664/g' $MAGENTO_ROOT/vendor/magento/framework/Filesystem/DriverInterface.php
+
+find $MAGENTO_ROOT/pub -type f -exec chmod 664 {} \;
+find $MAGENTO_ROOT/pub -type d -exec chmod 775 {} \;
+find $MAGENTO_ROOT/var/generation -type d -exec chmod g+s {} \;
+
+chown -R www-data:www-data $MAGENTO_ROOT
+
+echo "Installation complete"

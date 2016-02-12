@@ -1,0 +1,8 @@
+#!/bin/bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+MAGENTO_COMMAND="$MAGENTO_ROOT/bin/magento"
+
+chmod +x $MAGENTO_COMMAND
+su -c "$MAGENTO_COMMAND $*" -s /bin/bash www-data
