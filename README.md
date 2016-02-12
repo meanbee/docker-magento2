@@ -1,4 +1,4 @@
-#Magento 2 Docker
+# Magento 2 Docker
 
 A collection of Docker images for running Magento 2 through nginx and on the command line.
 
