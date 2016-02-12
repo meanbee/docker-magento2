@@ -37,11 +37,11 @@ It's recommended that you mount an external folder to `/root/.composer/cache`, o
 
 CLI commands can be triggered by running:
 
-  docker-compose run cli magento-installer
+    docker-compose run cli magento-installer
 
 Shell access to a CLI container can be triggered by running:
 
-  docker-compose run cli bash
+    docker-compose run cli bash
 
 ## Implementation Notes
 
