@@ -18,8 +18,7 @@ if [ ! -f "$MAGENTO_ROOT/composer.json" ]; then
         $MAGENTO_ROOT
 else
     echo "Magento installation found in $MAGENTO_ROOT, installing composer dependencies"
-
-    cd $MAGENTO_ROOT && composer install
+    composer --working-dir=$MAGENTO_ROOT install
 fi
 
 echo "Install Magento"
