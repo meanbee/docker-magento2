@@ -6,7 +6,7 @@
 # to be using an interactive terminal to authenticate".
 COMPOSER_AUTH=`cat /root/.composer/auth.json`
 
-composer --version
+MAGENTO_COMMAND="magento-command"
 
 if [ ! -f "$MAGENTO_ROOT/composer.json" ]; then
     echo "Creating Magento ($M2SETUP_VERSION) project from composer"
@@ -24,7 +24,7 @@ fi
 
 echo "Install Magento"
 
-php $MAGENTO_ROOT/bin/magento setup:install \
+$MAGENTO_COMMAND setup:install \
   --db-host=$M2SETUP_DB_HOST \
   --db-name=$M2SETUP_DB_NAME \
   --db-user=$M2SETUP_DB_USER \
@@ -36,8 +36,8 @@ php $MAGENTO_ROOT/bin/magento setup:install \
   --admin-user=$M2SETUP_ADMIN_USER \
   --admin-password=$M2SETUP_ADMIN_PASSWORD
 
-php $MAGENTO_ROOT/bin/magento index:reindex
-php $MAGENTO_ROOT/bin/magento setup:static-content:deploy
+$MAGENTO_COMMAND index:reindex
+$MAGENTO_COMMAND setup:static-content:deploy
 
 echo "Fixing file permissions.."
 
