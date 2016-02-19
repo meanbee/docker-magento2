@@ -8,13 +8,19 @@ COMPOSER_AUTH=`cat /root/.composer/auth.json`
 
 composer --version
 
-echo "Creating Magento ($M2SETUP_VERSION) project from composer"
+if [ ! -f "$MAGENTO_ROOT/composer.json" ]; then
+    echo "Creating Magento ($M2SETUP_VERSION) project from composer"
 
-composer create-project \
-    --repository-url=https://repo.magento.com/ \
-    magento/project-community-edition=$M2SETUP_VERSION \
-    --no-interaction \
-    $MAGENTO_ROOT
+    composer create-project \
+        --repository-url=https://repo.magento.com/ \
+        magento/project-community-edition=$M2SETUP_VERSION \
+        --no-interaction \
+        $MAGENTO_ROOT
+else
+    echo "Magento installation found in $MAGENTO_ROOT, installing composer dependencies"
+
+    cd $MAGENTO_ROOT && composer install
+fi
 
 echo "Install Magento"
 
