@@ -18,7 +18,7 @@ composer create-project \
 
 echo "Install Magento"
 
-php /magento/bin/magento setup:install \
+php $MAGENTO_ROOT/bin/magento setup:install \
   --db-host=$M2SETUP_DB_HOST \
   --db-name=$M2SETUP_DB_NAME \
   --db-user=$M2SETUP_DB_USER \
@@ -30,8 +30,8 @@ php /magento/bin/magento setup:install \
   --admin-user=$M2SETUP_ADMIN_USER \
   --admin-password=$M2SETUP_ADMIN_PASSWORD
 
-php /magento/bin/magento index:reindex
-php /magento/bin/magento setup:static-content:deploy
+php $MAGENTO_ROOT/bin/magento index:reindex
+php $MAGENTO_ROOT/bin/magento setup:static-content:deploy
 
 echo "Fixing file permissions.."
 
