@@ -1,9 +1,7 @@
 version: "2"
 services:
   web:
-  #  image: meanbee/magento2-nginx
-    build:
-      context: ./nginx
+    image: meanbee/magento2-nginx
     ports:
       - "80:80"
     links:
@@ -17,9 +15,7 @@ services:
       - VIRTUAL_HOST=magento2.docker
 
   fpm:
-  #  image: meanbee/magento2-php-fpm:7.0
-    build:
-      context: ./7.0-fpm
+    image: meanbee/magento2-php:7.0-fpm
     ports:
       - 9000
     links:
@@ -42,9 +38,7 @@ services:
       - MYSQL_PASSWORD=magento2
 
   cli:
-#    image: meanbee/magento2-php-fpm:7.0
-    build:
-      context: ./7.0-cli
+    image: meanbee/magento2-php:7.0-cli
     links:
       - db
     volumes:
