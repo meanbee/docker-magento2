@@ -18,7 +18,8 @@ RUN apt-get update \
     libjpeg62-turbo-dev \
     libmcrypt-dev \
     libpng12-dev \
-    libxslt1-dev
+    libxslt1-dev \
+    git
 
 # Configure the gd library
 RUN docker-php-ext-configure \
