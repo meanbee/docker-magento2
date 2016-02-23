@@ -35,6 +35,9 @@ RUN docker-php-ext-install \
   xsl \
   zip
 
+# Install the 2.4 version of xdebug that's compatible with php7
+RUN pecl install -o -f xdebug-2.4.0RC4
+
 # Get composer installed to /usr/local/bin/composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -42,8 +45,10 @@ VOLUME /root/.composer/cache
 
 ADD bin/* /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
+ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
 
 ENV PHP_MEMORY_LIMIT 2G
+ENV PHP_ENABLE_XDEBUG false
 ENV MAGENTO_ROOT /magento
 ENV COMPOSER_GITHUB_TOKEN ""
 ENV COMPOSER_MAGENTO_USERNAME ""

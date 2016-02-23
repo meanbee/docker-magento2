@@ -34,13 +34,18 @@ RUN docker-php-ext-install \
   xsl \
   zip
 
+# Install the 2.4 version of xdebug that's compatible with php7
+RUN pecl install -o -f xdebug-2.4.0RC4
+
 VOLUME /root/.composer/cache
 
 ADD bin/docker-environment /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
+ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
 ADD etc/php-fpm.conf /usr/local/etc/
 
 ENV PHP_MEMORY_LIMIT 2G
+ENV PHP_ENABLE_XDEBUG false
 ENV MAGENTO_ROOT /magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
