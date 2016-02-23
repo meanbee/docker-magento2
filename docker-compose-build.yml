@@ -1,0 +1,76 @@
+version: "2"
+services:
+  web:
+    build:
+      context: nginx/
+    ports:
+      - "80:80"
+    links:
+      - fpm
+      - db
+    volumes_from:
+      - appdata
+    env_file:
+      - ./global.env
+    environment:
+      - VIRTUAL_HOST=magento2.docker
+
+  fpm:
+    build:
+      context: 7.0-fpm/
+    ports:
+      - 9000
+    links:
+      - db
+    volumes_from:
+      - appdata
+    env_file:
+      - ./global.env
+
+  db:
+    image: mariadb:10
+    ports:
+      - 3306
+    volumes_from:
+      - dbdata
+    environment:
+      - MYSQL_ROOT_PASSWORD=magento2
+      - MYSQL_DATABASE=magento2
+      - MYSQL_USER=magento2
+      - MYSQL_PASSWORD=magento2
+
+  cli:
+    build:
+      context: 7.0-cli/
+    links:
+      - db
+    volumes:
+      - ~/.composer/cache:/root/.composer/cache
+    volumes_from:
+      - appdata
+    env_file:
+      - ./global.env
+      - ./composer.env
+    environment:
+      - M2SETUP_DB_HOST=db
+      - M2SETUP_DB_NAME=magento2
+      - M2SETUP_DB_USER=magento2
+      - M2SETUP_DB_PASSWORD=magento2
+      - M2SETUP_BASE_URL=http://magento2.docker/
+      - M2SETUP_ADMIN_FIRSTNAME=Admin
+      - M2SETUP_ADMIN_LASTNAME=User
+      - M2SETUP_ADMIN_EMAIL=dummy@gmail.com
+      - M2SETUP_ADMIN_USER=admin
+      - M2SETUP_ADMIN_PASSWORD=password1
+      - M2SETUP_VERSION=2.0.2
+      # - M2SETUP_USE_SAMPLE_DATA=true
+
+  appdata:
+    image: tianon/true
+    volumes:
+      - ./magento:/magento
+
+  dbdata:
+    image: tianon/true
+    volumes:
+      - /var/lib/mysql
