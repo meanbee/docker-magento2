@@ -49,7 +49,7 @@ ENV PHP_ENABLE_XDEBUG false
 ENV MAGENTO_ROOT /magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
-ENV IS_OSX false
+ENV UPDATE_UID_GID false
 
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 CMD ["php-fpm", "-F"]
