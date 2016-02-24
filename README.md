@@ -23,7 +23,7 @@ Configuration is driven through environment variables.  A comprehensive list of 
 * `COMPOSER_MAGENTO_PASSWORD` - Your Magento Connect private authentication key
 * `DEBUG` - Toggles tracing in the bash commands when exectued; nothing to do with Magento`
 * `PHP_ENABLE_XDEBUG` - When set to `true` it will include the Xdebug ini file as part of the PHP configuration, turning it on. It's recommended to only switch this on when you need it as it will slow down the application.
-* `IS_OSX` - If this is set to "true" then the uid and gid of `www-data` will be modified in the container
+* `UPDATE_UID_GID` - If this is set to "true" then the uid and gid of `www-data` will be modified in the container to match the values on the mounted folders.  This seems to be necessary to work around virtualbox issues on OSX.
 
 A sample `docker-compose.yml` is provided in this repository.
 
