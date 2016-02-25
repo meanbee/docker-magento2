@@ -23,6 +23,8 @@ fi
 
 echo "Install Magento"
 
+chown -R www-data:www-data $MAGENTO_ROOT
+
 $MAGENTO_COMMAND setup:install \
   --db-host=$M2SETUP_DB_HOST \
   --db-name=$M2SETUP_DB_NAME \
