@@ -36,6 +36,7 @@ services:
       - MYSQL_DATABASE=magento2
       - MYSQL_USER=magento2
       - MYSQL_PASSWORD=magento2
+      - TERM=meh
 
   cli:
     image: meanbee/magento2-php:7.0-cli
