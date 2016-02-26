@@ -57,6 +57,7 @@ services:
       - M2SETUP_DB_USER=magento2
       - M2SETUP_DB_PASSWORD=magento2
       - M2SETUP_BASE_URL=http://magento2.docker/
+      - M2SETUP_BACKEND_FRONTNAME=admin
       - M2SETUP_ADMIN_FIRSTNAME=Admin
       - M2SETUP_ADMIN_LASTNAME=User
       - M2SETUP_ADMIN_EMAIL=dummy@gmail.com
