@@ -19,6 +19,7 @@ RUN apt-get update \
     libmcrypt-dev \
     libpng12-dev \
     libxslt1-dev \
+    mysql-client \
     git
 
 # Configure the gd library
