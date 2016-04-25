@@ -2,9 +2,13 @@
 
 [ "$DEBUG" = "true" ] && set -x
 
-# Get composer auth information into an environment variable to avoid "you need
-# to be using an interactive terminal to authenticate".
-COMPOSER_AUTH=`cat /root/.composer/auth.json`
+AUTH_JSON_FILE="/root/.composer/auth.json"
+
+if [ -f "$AUTH_JSON_FILE" ]; then
+    # Get composer auth information into an environment variable to avoid "you need
+    # to be using an interactive terminal to authenticate".
+    COMPOSER_AUTH=`cat $AUTH_JSON_FILE`
+fi
 
 MAGENTO_COMMAND="magento-command"
 
