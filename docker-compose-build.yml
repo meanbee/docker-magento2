@@ -52,6 +52,7 @@ services:
       - ./global.env
       - ./composer.env
     environment:
+      - M2SETUP_INSTALL_DB=true
       - M2SETUP_DB_HOST=db
       - M2SETUP_DB_NAME=magento2
       - M2SETUP_DB_USER=magento2
