@@ -35,7 +35,7 @@ RUN docker-php-ext-install \
   zip
 
 # Install the 2.4 version of xdebug that's compatible with php7
-RUN pecl install -o -f xdebug-2.4.0RC4
+RUN pecl install -o -f xdebug-2.4.0
 
 VOLUME /root/.composer/cache
 
