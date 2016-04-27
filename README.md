@@ -6,6 +6,8 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 
     cp composer.env.sample composer.env
     # ..put the correct tokens into composer.env
+    
+    mkdir magento
 
     docker-compose run cli magento-installer
     docker-compose up -d
