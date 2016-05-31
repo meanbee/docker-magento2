@@ -48,9 +48,18 @@ if [ ! "$M2SETUP_INSTALL_DB" = "false" ]; then
         INSTALL_COMMAND="$INSTALL_COMMAND --backend-frontname=$M2SETUP_BACKEND_FRONTNAME"
     fi
 
+    if [ "$M2SETUP_USE_SAMPLE_DATA" = "true" ]; then
+
+      $MAGENTO_COMMAND sampledata:deploy
+      composer --working-dir=$MAGENTO_ROOT update
+
+      INSTALL_COMMAND="$INSTALL_COMMAND --use-sample-data"
+    fi
+
     $INSTALL_COMMAND
     $MAGENTO_COMMAND index:reindex
     $MAGENTO_COMMAND setup:static-content:deploy
+
 else
     echo "Skipping DB installation"
 fi
