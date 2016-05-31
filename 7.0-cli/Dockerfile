@@ -51,7 +51,7 @@ ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
 
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false
-ENV MAGENTO_ROOT /magento
+ENV MAGENTO_ROOT /var/www/magento
 ENV COMPOSER_GITHUB_TOKEN ""
 ENV COMPOSER_MAGENTO_USERNAME ""
 ENV COMPOSER_MAGENTO_PASSWORD ""

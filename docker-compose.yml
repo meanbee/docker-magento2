@@ -68,7 +68,7 @@ services:
   appdata:
     image: tianon/true
     volumes:
-      - ./magento:/magento
+      - ./magento:/var/www/magento
 
   dbdata:
     image: tianon/true

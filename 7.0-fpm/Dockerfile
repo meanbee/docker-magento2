@@ -47,7 +47,7 @@ ADD etc/php-fpm.conf /usr/local/etc/
 
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false
-ENV MAGENTO_ROOT /magento
+ENV MAGENTO_ROOT /var/www/magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
 ENV UPDATE_UID_GID false
