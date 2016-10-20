@@ -6,7 +6,7 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 
     cp composer.env.sample composer.env
     # ..put the correct tokens into composer.env
-    
+
     mkdir magento
 
     docker-compose run cli magento-installer
@@ -45,6 +45,14 @@ CLI commands can be triggered by running:
 Shell access to a CLI container can be triggered by running:
 
     docker-compose run cli bash
+
+## Sendmail
+
+All images have sendmail installed for emails, however it is not enabled by default. To enable sendmail, use the following environment variable:
+
+    ENABLE_SENDMAIL=true
+
+*Note:* If sendmail has been enabled, make sure the container has a hostname assigned using the `hostname` field in `docker-compose.yml` or `--hostname` parameter for `docker run`. If the container does not have a hostname set, sendmail will attempt to discover the hostname on startup, blocking for a prolonged period of time.
 
 ## Implementation Notes
 

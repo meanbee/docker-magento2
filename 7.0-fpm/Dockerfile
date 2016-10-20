@@ -18,7 +18,9 @@ RUN apt-get update \
     libjpeg62-turbo-dev \
     libmcrypt-dev \
     libpng12-dev \
-    libxslt1-dev
+    libxslt1-dev \
+    sendmail-bin \
+    sendmail
 
 # Configure the gd library
 RUN docker-php-ext-configure \
@@ -42,6 +44,7 @@ VOLUME /root/.composer/cache
 
 ADD bin/docker-environment /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
+ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
 ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
 ADD etc/php-fpm.conf /usr/local/etc/
 

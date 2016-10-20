@@ -16,6 +16,7 @@ services:
       - VIRTUAL_HOST=magento2.docker
 
   fpm:
+    hostname: fpm.magento2.docker
     build:
       context: 7.0-fpm/
     ports:
@@ -40,6 +41,7 @@ services:
       - MYSQL_PASSWORD=magento2
 
   cli:
+    hostname: cli.magento2.docker
     build:
       context: 7.0-cli/
     links:
