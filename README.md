@@ -6,7 +6,7 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 
     cp composer.env.sample composer.env
     # ..put the correct tokens into composer.env
-    
+
     mkdir magento
 
     docker-compose run cli magento-installer
@@ -49,6 +49,10 @@ Shell access to a CLI container can be triggered by running:
 ## Implementation Notes
 
 * In order to achieve a sane environment for executing commands in, a `docker-environment` script is included as the `ENTRYPOINT` in the container.
+
+## xdebug Usage
+
+To enable xdebug, you will need to toggle the `PHP_ENABLE_XDEBUG` environment variable to `true` in `global.env`. Then when using docker-compose you will need to restart the fpm container using `docker-compose up -d`, or stopping and starting the container.
 
 ## Credits
 
