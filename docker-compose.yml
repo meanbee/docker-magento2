@@ -65,6 +65,17 @@ services:
       - M2SETUP_VERSION=2.0.2
       # - M2SETUP_USE_SAMPLE_DATA=true
 
+  cron:
+    image: meanbee/magento2-php:7.0-cli
+    hostname: magento2-cron.docker
+    command: run-cron
+    environment:
+      - ENABLE_SENDMAIL=true
+    volumes_from:
+      - appdata
+    links:
+      - db
+
   appdata:
     image: tianon/true
     volumes:
