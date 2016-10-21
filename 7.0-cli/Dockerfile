@@ -21,7 +21,9 @@ RUN apt-get update \
     libpng12-dev \
     libxslt1-dev \
     mysql-client \
-    git
+    git \
+    sendmail-bin \
+    sendmail
 
 # Configure the gd library
 RUN docker-php-ext-configure \
@@ -49,6 +51,7 @@ VOLUME /root/.composer/cache
 ADD bin/* /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
 ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
+ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
 
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false

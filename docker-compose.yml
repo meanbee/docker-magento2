@@ -1,9 +1,20 @@
 version: "2"
 services:
+  varnish:
+    image: meanbee/magento2-varnish:latest
+    environment:
+      - VIRTUAL_HOST=magento2.docker
+      - VIRTUAL_PORT=80
+      - HTTPS_METHOD=noredirect
+    ports:
+      - 80
+    links:
+      - web
+
   web:
     image: meanbee/magento2-nginx:1.9
     ports:
-      - "80:80"
+      - 80
     links:
       - fpm
       - db
@@ -11,10 +22,13 @@ services:
       - appdata
     env_file:
       - ./global.env
-    environment:
-      - VIRTUAL_HOST=magento2.docker
+    #environment:
+      #- VIRTUAL_HOST=magento2.docker
+      #- VIRTUAL_PORT=80
+      #- HTTPS_METHOD=noredirect
 
   fpm:
+    hostname: fpm.magento2.docker
     image: meanbee/magento2-php:7.0-fpm
     ports:
       - 9000
@@ -39,6 +53,7 @@ services:
       - TERM=meh
 
   cli:
+    hostname: cli.magento2.docker
     image: meanbee/magento2-php:7.0-cli
     links:
       - db
@@ -62,7 +77,7 @@ services:
       - M2SETUP_ADMIN_EMAIL=dummy@gmail.com
       - M2SETUP_ADMIN_USER=admin
       - M2SETUP_ADMIN_PASSWORD=password1
-      - M2SETUP_VERSION=2.0.2
+      - M2SETUP_VERSION=2.1.*
       # - M2SETUP_USE_SAMPLE_DATA=true
 
   cron:

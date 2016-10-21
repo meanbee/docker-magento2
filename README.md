@@ -46,6 +46,14 @@ Shell access to a CLI container can be triggered by running:
 
     docker-compose run cli bash
 
+## Sendmail
+
+All images have sendmail installed for emails, however it is not enabled by default. To enable sendmail, use the following environment variable:
+
+    ENABLE_SENDMAIL=true
+
+*Note:* If sendmail has been enabled, make sure the container has a hostname assigned using the `hostname` field in `docker-compose.yml` or `--hostname` parameter for `docker run`. If the container does not have a hostname set, sendmail will attempt to discover the hostname on startup, blocking for a prolonged period of time.
+
 ## Implementation Notes
 
 * In order to achieve a sane environment for executing commands in, a `docker-environment` script is included as the `ENTRYPOINT` in the container.
@@ -53,6 +61,18 @@ Shell access to a CLI container can be triggered by running:
 ## xdebug Usage
 
 To enable xdebug, you will need to toggle the `PHP_ENABLE_XDEBUG` environment variable to `true` in `global.env`. Then when using docker-compose you will need to restart the fpm container using `docker-compose up -d`, or stopping and starting the container.
+
+## Varnish
+
+Varnish is running out of the container by default. If you do not require varnish, then you will need to remove the varnish block from your `docker-compose.yml` and uncomment the `environment` section under the `web` container definition.
+
+To clear varnish, you can use the `cli` containers `magento-command` to clear the cache, which will include varnish. Alternatively, you could restart the varnish container.
+
+    docker-compose run --rm cli magento-command cache:flush
+    # OR
+    docker-compose restart varnish
+
+If you need to add your own VCL, then it needs to be mounted to: `/data/varnish.vcl`.
 
 ## Credits
 

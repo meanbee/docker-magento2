@@ -1,10 +1,22 @@
 version: "2"
 services:
+  varnish:
+    build:
+      context: varnish/
+    environment:
+      - VIRTUAL_HOST=magento2.docker
+      - VIRTUAL_PORT=80
+      - HTTPS_METHOD=noredirect
+    ports:
+      - 80
+    links:
+      - web
+
   web:
     build:
       context: nginx/
     ports:
-      - "80:80"
+      - 80
     links:
       - fpm
       - db
@@ -12,10 +24,13 @@ services:
       - appdata
     env_file:
       - ./global.env
-    environment:
-      - VIRTUAL_HOST=magento2.docker
+    #environment:
+      #- VIRTUAL_HOST=magento2.docker
+      #- VIRTUAL_PORT=80
+      #- HTTPS_METHOD=noredirect
 
   fpm:
+    hostname: fpm.magento2.docker
     build:
       context: 7.0-fpm/
     ports:
@@ -40,6 +55,7 @@ services:
       - MYSQL_PASSWORD=magento2
 
   cli:
+    hostname: cli.magento2.docker
     build:
       context: 7.0-cli/
     links:
@@ -64,7 +80,7 @@ services:
       - M2SETUP_ADMIN_EMAIL=dummy@gmail.com
       - M2SETUP_ADMIN_USER=admin
       - M2SETUP_ADMIN_PASSWORD=password1
-      - M2SETUP_VERSION=2.0.2
+      - M2SETUP_VERSION=2.1.*
       # - M2SETUP_USE_SAMPLE_DATA=true
 
   cron:
