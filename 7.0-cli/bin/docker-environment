@@ -31,6 +31,11 @@ fi
 mkdir -p $MAGENTO_ROOT
 chown www-data:www-data $MAGENTO_ROOT
 
+# Configure Sendmail if required
+if [ "$ENABLE_SENDMAIL" == "true" ]; then
+    /etc/init.d/sendmail start
+fi
+
 # Configure PHP
 [ ! -z "${PHP_MEMORY_LIMIT}" ] && sed -i "s/!PHP_MEMORY_LIMIT!/${PHP_MEMORY_LIMIT}/" /usr/local/etc/php/conf.d/zz-magento.ini
 

@@ -15,6 +15,7 @@ services:
       - VIRTUAL_HOST=magento2.docker
 
   fpm:
+    hostname: fpm.magento2.docker
     image: meanbee/magento2-php:7.0-fpm
     ports:
       - 9000
@@ -39,6 +40,7 @@ services:
       - TERM=meh
 
   cli:
+    hostname: cli.magento2.docker
     image: meanbee/magento2-php:7.0-cli
     links:
       - db
