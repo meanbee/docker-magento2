@@ -1,10 +1,22 @@
 version: "2"
 services:
+  varnish:
+    build:
+      context: varnish/
+    environment:
+      - VIRTUAL_HOST=magento2.docker
+      - VIRTUAL_PORT=80
+      - HTTPS_METHOD=noredirect
+    ports:
+      - 80
+    links:
+      - web
+
   web:
     build:
       context: nginx/
     ports:
-      - "80:80"
+      - 80
     links:
       - fpm
       - db
@@ -12,8 +24,10 @@ services:
       - appdata
     env_file:
       - ./global.env
-    environment:
-      - VIRTUAL_HOST=magento2.docker
+    #environment:
+      #- VIRTUAL_HOST=magento2.docker
+      #- VIRTUAL_PORT=80
+      #- HTTPS_METHOD=noredirect
 
   fpm:
     hostname: fpm.magento2.docker

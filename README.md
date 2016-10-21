@@ -62,6 +62,18 @@ All images have sendmail installed for emails, however it is not enabled by defa
 
 To enable xdebug, you will need to toggle the `PHP_ENABLE_XDEBUG` environment variable to `true` in `global.env`. Then when using docker-compose you will need to restart the fpm container using `docker-compose up -d`, or stopping and starting the container.
 
+## Varnish
+
+Varnish is running out of the container by default. If you do not require varnish, then you will need to remove the varnish block from your `docker-compose.yml` and uncomment the `environment` section under the `web` container definition.
+
+To clear varnish, you can use the `cli` containers `magento-command` to clear the cache, which will include varnish. Alternatively, you could restart the varnish container.
+
+    docker-compose run --rm cli magento-command cache:flush
+    # OR
+    docker-compose restart varnish
+
+If you need to add your own VCL, then it needs to be mounted to: `/data/varnish.vcl`.
+
 ## Credits
 
 Thanks to [Mark Shust](https://twitter.com/markshust) for his work on [docker-magento2-php](https://github.com/mageinferno/docker-magento2-php) that was used as a basis for this implementation.  You solved a lot of the problems so I didn't need to!
