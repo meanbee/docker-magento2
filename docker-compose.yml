@@ -62,7 +62,7 @@ services:
       - M2SETUP_ADMIN_EMAIL=dummy@gmail.com
       - M2SETUP_ADMIN_USER=admin
       - M2SETUP_ADMIN_PASSWORD=password1
-      - M2SETUP_VERSION=2.0.2
+      - M2SETUP_VERSION=2.1.*
       # - M2SETUP_USE_SAMPLE_DATA=true
 
   appdata:
