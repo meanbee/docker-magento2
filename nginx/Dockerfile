@@ -7,7 +7,6 @@ ADD bin/* /usr/local/bin/
 
 ENV FPM_HOST fpm
 ENV FPM_PORT 9000
-ENV VIRTUAL_HOST magento.docker
 ENV MAGENTO_ROOT /var/www/magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
