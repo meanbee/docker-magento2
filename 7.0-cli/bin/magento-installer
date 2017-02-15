@@ -43,6 +43,11 @@ if [ ! "$M2SETUP_INSTALL_DB" = "false" ]; then
         --admin-user=$M2SETUP_ADMIN_USER \
         --admin-password=$M2SETUP_ADMIN_PASSWORD"
 
+    # Use a separate value for secure base URL, if the variable is set
+    if [ -n "$M2SETUP_SECURE_BASE_URL" ]; then
+        INSTALL_COMMAND="$INSTALL_COMMAND --base-url-secure=$M2SETUP_SECURE_BASE_URL"
+    fi
+
     # Only define a backend-frontname if the variable is set, or not empty.
     if [ -z "$M2SETUP_BACKEND_FRONTNAME" ]; then
         INSTALL_COMMAND="$INSTALL_COMMAND --backend-frontname=$M2SETUP_BACKEND_FRONTNAME"
