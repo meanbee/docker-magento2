@@ -44,7 +44,7 @@ if [ ! "$M2SETUP_INSTALL_DB" = "false" ]; then
         --admin-password=$M2SETUP_ADMIN_PASSWORD"
 
     # Only define a backend-frontname if the variable is set, or not empty.
-    if [ -z "$M2SETUP_BACKEND_FRONTNAME" ]; then
+    if [ -n "$M2SETUP_BACKEND_FRONTNAME" ]; then
         INSTALL_COMMAND="$INSTALL_COMMAND --backend-frontname=$M2SETUP_BACKEND_FRONTNAME"
     fi
 
