@@ -42,7 +42,7 @@ RUN pecl install -o -f xdebug-2.4.0
 
 VOLUME /root/.composer/cache
 
-ADD bin/docker-environment /usr/local/bin/
+ADD bin/* /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
 ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
 ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
