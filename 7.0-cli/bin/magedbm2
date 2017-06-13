@@ -2,4 +2,4 @@
 
 [ "$DEBUG" = "true" ] && set -x
 
-su www-data -s /bin/bash -c "magedbm2.phar --root-dir=$MAGENTO_ROOT $*"
+exec sudo -u www-data -- magedbm2.phar --root-dir=$MAGENTO_ROOT "$@"

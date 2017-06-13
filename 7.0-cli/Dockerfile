@@ -23,7 +23,8 @@ RUN apt-get update \
     mysql-client \
     git \
     sendmail-bin \
-    sendmail
+    sendmail \
+    sudo
 
 # Configure the gd library
 RUN docker-php-ext-configure \
