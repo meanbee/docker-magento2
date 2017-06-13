@@ -52,6 +52,9 @@ RUN curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x ./n98-mageru
 # Install magedbm2.phar and move to /usr/local/bin
 RUN curl -LO https://s3.eu-west-2.amazonaws.com/magedbm2-releases/magedbm2.phar && chmod +x ./magedbm2.phar && mv ./magedbm2.phar /usr/local/bin
 
+# Install mageconfigsync and move to /usr/local/bin
+RUN curl -L https://github.com/punkstar/mageconfigsync/releases/download/0.5.0-beta.1/mageconfigsync-0.5.0-beta.1.phar > mageconfigsync.phar && chmod +x ./mageconfigsync.phar && mv ./mageconfigsync.phar /usr/local/bin
+
 VOLUME /root/.composer/cache
 
 ADD bin/* /usr/local/bin/
