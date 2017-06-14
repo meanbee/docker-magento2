@@ -23,6 +23,8 @@ Configuration is driven through environment variables.  A comprehensive list of 
 * `COMPOSER_GITHUB_TOKEN` - Your [GitHub OAuth token](https://getcomposer.org/doc/articles/troubleshooting.md#api-rate-limit-and-oauth-tokens), should it be needed
 * `COMPOSER_MAGENTO_USERNAME` - Your Magento Connect public authentication key ([how to get](http://devdocs.magento.com/guides/v2.0/install-gde/prereq/connect-auth.html))
 * `COMPOSER_MAGENTO_PASSWORD` - Your Magento Connect private authentication key
+* `COMPOSER_BITBUCKET_KEY` - Your Bitbucket OAuth key ([how to get](https://confluence.atlassian.com/bitbucket/oauth-on-bitbucket-cloud-238027431.html))
+* `COMPOSER_BITBUCKET_SECRET` - Your Bitbucket OAuth secret
 * `DEBUG` - Toggles tracing in the bash commands when exectued; nothing to do with Magento`
 * `PHP_ENABLE_XDEBUG` - When set to `true` it will include the Xdebug ini file as part of the PHP configuration, turning it on. It's recommended to only switch this on when you need it as it will slow down the application.
 * `UPDATE_UID_GID` - If this is set to "true" then the uid and gid of `www-data` will be modified in the container to match the values on the mounted folders.  This seems to be necessary to work around virtualbox issues on OSX.
