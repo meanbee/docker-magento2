@@ -76,4 +76,6 @@ ENV UPDATE_UID_GID false
 
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 
+WORKDIR /var/www/magento
+
 CMD ["bash"]
