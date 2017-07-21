@@ -13,7 +13,7 @@ function error {
 
 # Output an error message and exit with an error code.
 function fail {
-    error $@
+    error "$@"
     exit 1
 }
 
@@ -77,7 +77,7 @@ done
 
 [ "$DEBUG" = "true" ] && set -x
 
-[ "$CREDENTIALS" = "COMPOSER_AUTH" -a -z "$COMPOSER_AUTH" ] && \
+[ "$CREDENTIALS" = "COMPOSER_AUTH" ] && [ -z "$COMPOSER_AUTH" ] && \
     fail "Credentials not provided and \$COMPOSER_AUTH variable not set. Downloading Magento 2 source will fail!"
 
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+$ ]] || \
