@@ -55,5 +55,7 @@ ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
 ENV UPDATE_UID_GID false
 
+RUN ["chmod", "+x", "/usr/local/bin/docker-environment"]
+
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 CMD ["php-fpm", "-F"]
