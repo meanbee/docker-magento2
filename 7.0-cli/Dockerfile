@@ -75,6 +75,12 @@ ENV COMPOSER_BITBUCKET_SECRET ""
 ENV DEBUG false
 ENV UPDATE_UID_GID false
 
+RUN ["chmod", "+x", "/usr/local/bin/docker-environment"]
+RUN ["chmod", "+x", "/usr/local/bin/magento-installer"]
+RUN ["chmod", "+x", "/usr/local/bin/magento-command"]
+RUN ["chmod", "+x", "/usr/local/bin/magerun2"]
+RUN ["chmod", "+x", "/usr/local/bin/run-cron"]
+
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 
 CMD ["bash"]
