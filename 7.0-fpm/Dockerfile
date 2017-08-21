@@ -28,6 +28,7 @@ RUN docker-php-ext-configure \
 
 # Install required PHP extensions
 RUN docker-php-ext-install \
+  dom \
   gd \
   intl \
   mbstring \
