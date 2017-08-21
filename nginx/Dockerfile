@@ -14,5 +14,7 @@ ENV MAGENTO_ROOT /var/www/magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
 
+RUN ["chmod", "+x", "/usr/local/bin/docker-environment"]
+
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 CMD ["nginx", "-g", "daemon off;"]
