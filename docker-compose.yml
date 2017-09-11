@@ -85,6 +85,8 @@ services:
     image: meanbee/magento2-php:7.1-cli
     hostname: magento2-cron.docker
     command: run-cron
+    env_file:
+      - ./global.env    
     environment:
       - ENABLE_SENDMAIL=true
     volumes_from:
