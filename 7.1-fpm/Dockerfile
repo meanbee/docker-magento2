@@ -54,6 +54,7 @@ ENV MAGENTO_ROOT /var/www/magento
 ENV MAGENTO_RUN_MODE developer
 ENV DEBUG false
 ENV UPDATE_UID_GID false
+ENV UPLOAD_MAX_FILESIZE 64M
 
 ENTRYPOINT ["/usr/local/bin/docker-environment"]
 CMD ["php-fpm", "-F"]
