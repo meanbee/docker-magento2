@@ -18,6 +18,7 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 Configuration is driven through environment variables.  A comprehensive list of the environment variables used can be found in each `Dockerfile` and the commands in each `bin/` directory.
 
 * `PHP_MEMORY_LIMIT` - The memory limit to be set in the `php.ini`
+* `UPLOAD_MAX_FILESIZE` - Upload filesize limit for PHP and Nginx
 * `MAGENTO_RUN_MODE` - Valid values, as defined in `Magento\Framework\App\State`: `developer`, `production`, `default`.
 * `MAGENTO_ROOT` - The directory to which Magento should be installed (defaults to `/var/www/magento`)
 * `COMPOSER_GITHUB_TOKEN` - Your [GitHub OAuth token](https://getcomposer.org/doc/articles/troubleshooting.md#api-rate-limit-and-oauth-tokens), should it be needed
