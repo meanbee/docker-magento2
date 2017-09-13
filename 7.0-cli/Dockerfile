@@ -74,6 +74,7 @@ ENV COMPOSER_BITBUCKET_KEY ""
 ENV COMPOSER_BITBUCKET_SECRET ""
 ENV DEBUG false
 ENV UPDATE_UID_GID false
+ENV UPLOAD_MAX_FILESIZE 64M
 
 RUN ["chmod", "+x", "/usr/local/bin/docker-environment"]
 RUN ["chmod", "+x", "/usr/local/bin/magento-installer"]
