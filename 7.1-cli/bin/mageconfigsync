@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+exec sudo -u www-data -- mageconfigsync.phar --magento-root=$MAGENTO_ROOT "$@"
