@@ -40,7 +40,7 @@ RUN docker-php-ext-install \
 # Install the 2.4 version of xdebug that's compatible with php7
 RUN pecl install -o -f xdebug-2.4.0
 
-VOLUME /roor/.composer/cache
+VOLUME /root/.composer/cache
 
 ADD bin/* /usr/local/bin/
 ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
