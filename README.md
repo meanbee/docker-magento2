@@ -79,6 +79,35 @@ To clear varnish, you can use the `cli` containers `magento-command` to clear th
 
 If you need to add your own VCL, then it needs to be mounted to: `/data/varnish.vcl`.
 
-## Credits
+## Building
 
-Thanks to [Mark Shust](https://twitter.com/markshust) for his work on [docker-magento2-php](https://github.com/mageinferno/docker-magento2-php) that was used as a basis for this implementation.  You solved a lot of the problems so I didn't need to!
+A lot of the configuration for each image is the same, with the difference being the base image that they're extending from.  For this reason we use `php` to build the `Dockerfile` from a set of templates in `src/`.  The `Dockerfile` should still be published to the repository due to Docker Hub needing a `Dockerfile` to build from.
+
+To build all `Dockerfile`s, run the `builder.php` script in the `php:7` Docker image:<!-- Yo dawg, I heard you like Docker images... -->
+
+    docker run --rm -it -v $(pwd):/src php:7 php /src/builder.php
+
+### Adding new images to the build config
+
+The build configuration is controlled by the `config.json` file. Yeah element in the top level hash is a new build target, using the following syntax:
+
+    "<target-name>": {
+        "version": "<php-version>",
+        "flavour": "<image-flavour>",
+        "files": {
+            "<target-file-name>": {
+                "<template-variable-name>": "<template-variable-value>",
+                ...
+            },
+    }
+
+The target files will be rendered in the `<php-version>-<image-flavour>/` directory.
+
+The source template for each target file is selected from the `src/` directory using the following fallback order:
+
+1. `<target-file-name>-<php-version>-<image-flavour>`
+2. `<target-file-name>-<php-version>`
+3. `<target-file-name>-<image-flavour>`
+4. `<target-file-name>`
+
+Individual templates may include other templates as partials.
