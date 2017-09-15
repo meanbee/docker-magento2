@@ -29,7 +29,7 @@ services:
 
   fpm:
     hostname: fpm.magento2.docker
-    image: meanbee/magento2-php:7.1-fpm
+    image: meanbee/magento2-php:7.0-fpm
     ports:
       - 9000
     links:
@@ -54,7 +54,7 @@ services:
 
   cli:
     hostname: cli.magento2.docker
-    image: meanbee/magento2-php:7.1-cli
+    image: meanbee/magento2-php:7.0-cli
     links:
       - db
     volumes:
@@ -82,7 +82,7 @@ services:
       # - M2SETUP_USE_SAMPLE_DATA=true
 
   cron:
-    image: meanbee/magento2-php:7.1-cli
+    image: meanbee/magento2-php:7.0-cli
     hostname: magento2-cron.docker
     command: run-cron
     env_file:
