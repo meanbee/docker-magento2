@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Class Builder
+ * Class Builder2
  *
  * Builds files from given configuration and source templates.
+ *
+ * This extends from the original Builder in the `docker-magento` repository.
  */
-class Builder
+class Builder2
 {
     const DEFAULT_CONFIG_FILE = __DIR__ . DIRECTORY_SEPARATOR . "config.json";
     const DEFAULT_TEMPLATE_DIR = __DIR__ . DIRECTORY_SEPARATOR . "src/";
@@ -120,22 +122,22 @@ class Builder
     /**
      * Return the template file name for the given file.
      *
-     * @param string $file_name
+     * @param string $filename
      * @param array  $config
      *
      * @return null|string
      */
-    protected function getTemplateFile($file_name, $config)
+    protected function getTemplateFile($filename, $config)
     {
-        $file_names = [
-            sprintf("%s-%s-%s", $file_name, $config["version"], $config["flavour"]),
-            sprintf("%s-%s", $file_name, $config["version"]),
-            sprintf("%s-%s", $file_name, $config["flavour"]),
-            $file_name,
+        $potential_file_names = [
+            sprintf("%s-%s-%s", $filename, $config["version"], $config["flavour"]),
+            sprintf("%s-%s", $filename, $config["version"]),
+            sprintf("%s-%s", $filename, $config["flavour"]),
+            $filename,
         ];
         
-        foreach ($file_names as $file_name) {
-            $path = $this->template_dir . DIRECTORY_SEPARATOR . $file_name;
+        foreach ($potential_file_names as $potential_file_name) {
+            $path = $this->template_dir . DIRECTORY_SEPARATOR . $potential_file_name;
             
             if (file_exists($path) && is_readable($path)) {
                 return $path;
@@ -172,7 +174,7 @@ class Builder
      */
     protected function renderTemplate($template_file, $variables)
     {
-        extract($variables);
+        extract($variables, EXTR_OVERWRITE);
         ob_start();
         
         include $template_file;
@@ -195,8 +197,12 @@ class Builder
     {
         $directory = dirname($file_name);
         
+        // If the directory doesn't created then try to create the directory.
         if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
+            // Create the directory, preventing race conditions if another process creates the directory for us.
+            if (!@mkdir($directory, 0755, true) && !is_dir($directory)) {
+                throw new Exception(sprintf("Unable to create directory %s!", $directory));
+            }
         }
         
         if (file_put_contents($file_name, $contents) === false) {
@@ -265,5 +271,5 @@ if (isset($args["q"])) {
     $options["verbose"] = count($args["v"]);
 }
 
-$builder = new Builder($options);
+$builder = new Builder2($options);
 $builder->run();
