@@ -8,6 +8,7 @@ ADD bin/* /usr/local/bin/
 
 EXPOSE 443
 
+ENV UPLOAD_MAX_FILESIZE 64M
 ENV FPM_HOST fpm
 ENV FPM_PORT 9000
 ENV MAGENTO_ROOT /var/www/magento
