@@ -32,7 +32,7 @@ services:
   fpm:
     hostname: fpm.magento2.docker
     build:
-      context: 7.1-fpm/
+      context: 7.0-fpm/
     ports:
       - 9000
     links:
@@ -57,7 +57,7 @@ services:
   cli:
     hostname: cli.magento2.docker
     build:
-      context: 7.1-cli/
+      context: 7.0-cli/
     links:
       - db
     volumes:
@@ -86,7 +86,7 @@ services:
 
   cron:
     build:
-      context: 7.1-cli/
+      context: 7.0-cli/
     hostname: magento2-cron.docker
     command: run-cron
     environment:

@@ -1,0 +1,100 @@
+{
+  "7.0-cli": {
+    "version": "7.0",
+    "flavour": "cli",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "bin/mageconfigsync": {
+        "executable": true
+      },
+      "bin/magedbm2": {
+        "executable": true
+      },
+      "bin/magento-command": {
+        "executable": true
+      },
+      "bin/magento-extension-installer": {
+        "_disable_variables": true,
+        "executable": true
+      },
+      "bin/magento-installer": {
+        "executable": true
+      },
+      "bin/magerun2": {
+        "executable": true
+      },
+      "bin/run-cron": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php.ini": {},
+      "etc/php-xdebug.ini": {}
+    }
+  },
+  "7.0-fpm": {
+    "version": "7.0",
+    "flavour": "fpm",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php.ini": {},
+      "etc/php-xdebug.ini": {},
+      "etc/php-fpm.conf": {}
+    }
+  },
+  "7.1-cli": {
+    "version": "7.1",
+    "flavour": "cli",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "bin/mageconfigsync": {
+        "executable": true
+      },
+      "bin/magedbm2": {
+        "executable": true
+      },
+      "bin/magento-command": {
+        "executable": true
+      },
+      "bin/magento-extension-installer": {
+        "_disable_variables": true,
+        "executable": true
+      },
+      "bin/magento-installer": {
+        "executable": true
+      },
+      "bin/magerun2": {
+        "executable": true
+      },
+      "bin/run-cron": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php.ini": {},
+      "etc/php-xdebug.ini": {}
+    }
+  },
+  "7.1-fpm": {
+    "version": "7.1",
+    "flavour": "fpm",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php.ini": {},
+      "etc/php-xdebug.ini": {},
+      "etc/php-fpm.conf": {}
+    }
+  }
+}

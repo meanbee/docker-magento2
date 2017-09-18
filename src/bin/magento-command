@@ -1,0 +1,9 @@
+#!/bin/bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+MAGENTO_COMMAND="$MAGENTO_ROOT/bin/magento"
+
+chmod +x $MAGENTO_COMMAND
+
+exec sudo -u www-data -- $MAGENTO_COMMAND "$@"
