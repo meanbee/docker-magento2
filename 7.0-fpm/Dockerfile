@@ -45,6 +45,10 @@ ENV MAGENTO_ROOT /var/www/magento
 ENV DEBUG false
 ENV UPDATE_UID_GID false
 
+ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
+ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
+ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
+
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN ["chmod", "+x", "/docker-entrypoint.sh"]
@@ -53,5 +57,7 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 ENV MAGENTO_RUN_MODE developer
 ENV UPLOAD_MAX_FILESIZE 64M
+
+ADD etc/php-fpm.conf /usr/local/etc/
 
 CMD ["php-fpm", "-F"]
