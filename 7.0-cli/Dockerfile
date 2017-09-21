@@ -49,6 +49,10 @@ ENV MAGENTO_ROOT /var/www/magento
 ENV DEBUG false
 ENV UPDATE_UID_GID false
 
+ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
+ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
+ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
+
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN ["chmod", "+x", "/docker-entrypoint.sh"]
@@ -77,9 +81,6 @@ RUN curl -LO https://s3.eu-west-2.amazonaws.com/magedbm2-releases/magedbm2.phar 
 RUN curl -L https://github.com/punkstar/mageconfigsync/releases/download/0.5.0-beta.1/mageconfigsync-0.5.0-beta.1.phar > mageconfigsync.phar && chmod +x ./mageconfigsync.phar && mv ./mageconfigsync.phar /usr/local/bin
 
 ADD bin/* /usr/local/bin/
-ADD etc/php.ini /usr/local/etc/php/conf.d/zz-magento.ini
-ADD etc/php-xdebug.ini /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
-ADD etc/mail.ini /usr/local/etc/php/conf.d/zz-mail.ini
 
 RUN ["chmod", "+x", "/usr/local/bin/magento-installer"]
 RUN ["chmod", "+x", "/usr/local/bin/magento-command"]
