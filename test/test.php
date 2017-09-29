@@ -34,13 +34,11 @@ $required_extensions = array(
   'hash',
   'iconv',
   'mcrypt',
-  'memcached',
   'pcre',
   'pdo',
   'pdo_mysql',
   'simplexml',
   'xsl',
-  'xdebug',
   'IonCube Loader',
   'zip',
   'intl'
