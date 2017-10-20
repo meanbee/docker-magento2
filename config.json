@@ -30,7 +30,7 @@
         "executable": true
       },
       "etc/mail.ini": {},
-      "etc/php.ini": {},
+      "etc/php-cli.ini": {},
       "etc/php-xdebug.ini": {}
     }
   },
@@ -43,7 +43,7 @@
         "executable": true
       },
       "etc/mail.ini": {},
-      "etc/php.ini": {},
+      "etc/php-fpm.ini": {},
       "etc/php-xdebug.ini": {},
       "etc/php-fpm.conf": {}
     }
@@ -79,7 +79,7 @@
         "executable": true
       },
       "etc/mail.ini": {},
-      "etc/php.ini": {},
+      "etc/php-cli.ini": {},
       "etc/php-xdebug.ini": {}
     }
   },
@@ -92,7 +92,7 @@
         "executable": true
       },
       "etc/mail.ini": {},
-      "etc/php.ini": {},
+      "etc/php-fpm.ini": {},
       "etc/php-xdebug.ini": {},
       "etc/php-fpm.conf": {}
     }
