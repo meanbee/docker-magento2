@@ -1,5 +1,10 @@
 # Magento 2 Docker
 
+[![Build Status][ico-travis]][link-travis]
+[![Docker Build Status][ico-dockerbuild]][link-dockerhub]
+[![Docker Pulls][ico-downloads]][link-dockerhub]
+[![Docker Stars][ico-dockerstars]][link-dockerhub]
+
 A collection of Docker images for running Magento 2 through nginx and on the command line.
 
 ## Quick Start
@@ -111,3 +116,11 @@ The source template for each target file is selected from the `src/` directory u
 4. `<target-file-name>`
 
 Individual templates may include other templates as partials.
+
+[ico-travis]: https://img.shields.io/travis/meanbee/docker-magento2.svg?style=flat-square
+[ico-dockerbuild]: https://img.shields.io/docker/build/meanbee/magento2-php.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/docker/pulls/meanbee/magento2-php.svg?style=flat-square
+[ico-dockerstars]: https://img.shields.io/docker/stars/meanbee/magento2-php.svg?style=flat-square
+
+[link-travis]: https://travis-ci.org/meanbee/docker-magento2
+[link-dockerhub]: https://hub.docker.com/r/meanbee/magento2-php
