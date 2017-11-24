@@ -42,8 +42,19 @@ RUN docker-php-ext-install \
 # Install the 2.4 version of xdebug that's compatible with php7
 RUN pecl install -o -f xdebug-2.4.0
 
+# Install IonCube loader
+ENV ION_CUBE_PHP_VERSION "7.0"
+
+RUN PHP_EXTENSION_DIR="$(php-config --extension-dir)" \
+    && curl http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -o /ioncube_loaders.tar.gz \
+    && tar -zxvf /ioncube_loaders.tar.gz -C / \
+    && cp "/ioncube/ioncube_loader_lin_${ION_CUBE_PHP_VERSION}.so" ${PHP_EXTENSION_DIR} \
+    && echo "zend_extension=${PHP_EXTENSION_DIR}/ioncube_loader_lin_${ION_CUBE_PHP_VERSION}.so" > /usr/local/etc/php/conf.d/00-ioncube.ini \
+    && rm -rf /ioncube /ioncube_loaders_lin_x86-64.tar.gz
+
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false
+ENV PHP_ENABLE_IONCUBE false
 ENV MAGENTO_ROOT /var/www/magento
 
 ENV DEBUG false
