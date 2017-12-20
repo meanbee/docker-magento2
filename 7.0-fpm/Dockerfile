@@ -35,8 +35,8 @@ RUN docker-php-ext-install \
   zip \
   soap
 
-# Install the 2.4 version of xdebug that's compatible with php7
-RUN pecl install -o -f xdebug-2.4.0
+# Install Xdebug (but don't enable)
+RUN pecl install -o -f xdebug
 
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false
