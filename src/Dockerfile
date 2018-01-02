@@ -39,7 +39,8 @@ RUN docker-php-ext-install \
   pdo_mysql \
   xsl \
   zip \
-  soap
+  soap \
+  bcmath
 
 # Install Xdebug (but don't enable)
 RUN pecl install -o -f xdebug
