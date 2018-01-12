@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+exec sudo -u www-data -- magedbm2.phar --root-dir=$MAGENTO_ROOT "$@"
