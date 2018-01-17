@@ -32,7 +32,9 @@
       "etc/mail.ini": {},
       "etc/php-cli.ini": {},
       "etc/php-xdebug.ini": {}
-    }
+    },
+    "phpExtensions": ["mcrypt"],
+    "xDebugVersion": "latest"
   },
   "7.0-fpm": {
     "version": "7.0",
@@ -46,7 +48,9 @@
       "etc/php-fpm.ini": {},
       "etc/php-xdebug.ini": {},
       "etc/php-fpm.conf": {}
-    }
+    },
+    "phpExtensions": ["mcrypt"],
+    "xdebugVersion": "latest"
   },
   "7.1-cli": {
     "version": "7.1",
@@ -81,7 +85,9 @@
       "etc/mail.ini": {},
       "etc/php-cli.ini": {},
       "etc/php-xdebug.ini": {}
-    }
+    },
+    "phpExtensions": ["mcrypt"],
+    "xdebugVersion": "latest"
   },
   "7.1-fpm": {
     "version": "7.1",
@@ -95,7 +101,9 @@
       "etc/php-fpm.ini": {},
       "etc/php-xdebug.ini": {},
       "etc/php-fpm.conf": {}
-    }
+    },
+    "phpExtensions": ["mcrypt"],
+    "xdebugVersion": "latest"
   },
   "7.2-cli": {
     "version": "7.2",
@@ -130,7 +138,9 @@
       "etc/mail.ini": {},
       "etc/php-cli.ini": {},
       "etc/php-xdebug.ini": {}
-    }
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "2.6.0beta1"
   },
   "7.2-fpm": {
     "version": "7.2",
@@ -144,6 +154,8 @@
       "etc/php-fpm.ini": {},
       "etc/php-xdebug.ini": {},
       "etc/php-fpm.conf": {}
-    }
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "2.6.0beta1"
   }
 }

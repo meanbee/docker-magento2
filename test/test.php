@@ -33,7 +33,6 @@ $required_extensions = array(
   'gd',
   'hash',
   'iconv',
-  'mcrypt',
   'pcre',
   'pdo',
   'pdo_mysql',
@@ -42,6 +41,11 @@ $required_extensions = array(
   'zip',
   'intl'
 );
+
+if (version_compare(phpversion(), '7.2.0', '<')) {
+  $required_extensions[] = 'mcrypt';
+}
+
 
 foreach ($required_extensions as $extension) {
   if (!extension_loaded($extension)) {

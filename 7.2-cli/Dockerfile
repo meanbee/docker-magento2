@@ -13,7 +13,7 @@ RUN apt-get update \
     libicu-dev \ 
     libjpeg62-turbo-dev \ 
     libmcrypt-dev \ 
-    libpng12-dev \ 
+    libpng-dev \ 
     libxslt1-dev \ 
     sendmail-bin \ 
     sendmail \ 
@@ -28,19 +28,20 @@ RUN docker-php-ext-configure \
   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 # Install required PHP extensions
+
 RUN docker-php-ext-install \
-  dom \
-  gd \
-  intl \
-  mbstring \
-  mcrypt \
-  pdo_mysql \
-  xsl \
-  zip \
-  soap
+  dom \ 
+  gd \ 
+  intl \ 
+  mbstring \ 
+  pdo_mysql \ 
+  xsl \ 
+  zip \ 
+  soap \ 
+  bcmath
 
 # Install Xdebug (but don't enable)
-RUN pecl install -o -f xdebug
+RUN pecl install -o -f xdebug-2.6.0beta1
 
 ENV PHP_MEMORY_LIMIT 2G
 ENV PHP_ENABLE_XDEBUG false

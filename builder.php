@@ -75,7 +75,9 @@ class Builder2
                     // Merge global variables to the template variables
                     $variables["version"] = $config["version"];
                     $variables["flavour"] = $config["flavour"];
-                    
+                    $variables["imageSpecificPhpExtensions"] = $config["phpExtensions"];
+                    $variables["xdebugVersion"] = $config["xdebugVersion"];
+
                     // Determine whether we should load with the template renderer, or whether we should straight up
                     // just load the file from disk.
                     if ($variables['_disable_variables'] ?? false) {
