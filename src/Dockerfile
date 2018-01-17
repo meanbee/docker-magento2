@@ -30,17 +30,22 @@ RUN docker-php-ext-configure \
   gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
 # Install required PHP extensions
+<?php $phpExtensions = array_merge([
+  'dom',
+  'gd',
+  'intl',
+  'mbstring',
+  'pdo_mysql',
+  'xsl',
+  'zip',
+  'soap',
+  'bcmath'
+], $imageSpecificPhpExtensions ?? []);
+?>
+
 RUN docker-php-ext-install \
-  dom \
-  gd \
-  intl \
-  mbstring \
-  mcrypt \
-  pdo_mysql \
-  xsl \
-  zip \
-  soap \
-  bcmath
+  <?php echo join(" \\ \n  ", $phpExtensions) ?>
+
 
 # Install Xdebug (but don't enable)
 RUN pecl install -o -f xdebug
