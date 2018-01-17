@@ -13,7 +13,7 @@ RUN apt-get update \
     libicu-dev \ 
     libjpeg62-turbo-dev \ 
     libmcrypt-dev \ 
-    libpng12-dev \ 
+    libpng-dev \ 
     libxslt1-dev \ 
     sendmail-bin \ 
     sendmail \ 
@@ -37,7 +37,8 @@ RUN docker-php-ext-install \
   pdo_mysql \
   xsl \
   zip \
-  soap
+  soap \
+  bcmath
 
 # Install Xdebug (but don't enable)
 RUN pecl install -o -f xdebug
