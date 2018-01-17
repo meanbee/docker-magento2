@@ -42,6 +42,14 @@ echo ""
 docker pull meanbee/magento2-php:${PHP_VERSION}-${IMAGE_FLAVOUR}
 
 ################################################################################
+# Build the image locally and name it $IMAGE_NAME
+################################################################################
+echo ""
+echo "Building image"
+echo ""
+docker build --tag $IMAGE_NAME ${PHP_VERSION}-${IMAGE_FLAVOUR}/
+
+################################################################################
 # Output the PHP version running in the image
 ################################################################################
 echo ""
