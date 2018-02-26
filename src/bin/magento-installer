@@ -71,7 +71,7 @@ if [ ! "$M2SETUP_INSTALL_DB" = "false" ]; then
 
     $INSTALL_COMMAND
     $MAGENTO_COMMAND index:reindex
-    $MAGENTO_COMMAND setup:static-content:deploy
+    $MAGENTO_COMMAND setup:static-content:deploy -f
 
 else
     echo "Skipping DB installation"
