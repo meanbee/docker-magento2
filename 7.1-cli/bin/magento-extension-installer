@@ -292,7 +292,6 @@ class Magento_Extension_Installer
         return $this->magentoCommand("module:enable $name")
             && $this->magentoCommand("setup:upgrade")
             && $this->magentoCommand("setup:di:compile")
-            && $this->magentoCommand("setup:static-content:deploy")
             && $this->magentoCommand("cache:flush");
     }
 
