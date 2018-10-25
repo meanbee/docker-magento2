@@ -140,7 +140,7 @@
       "etc/php-xdebug.ini": {}
     },
     "phpExtensions": [],
-    "xdebugVersion": "2.6.0beta1"
+    "xdebugVersion": "latest"
   },
   "7.2-fpm": {
     "version": "7.2",
@@ -156,6 +156,6 @@
       "etc/php-fpm.conf": {}
     },
     "phpExtensions": [],
-    "xdebugVersion": "2.6.0beta1"
+    "xdebugVersion": "latest"
   }
 }
