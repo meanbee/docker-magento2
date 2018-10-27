@@ -9,6 +9,9 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 
 ## Quick Start
 
+    # .. add the following entry to OS hosts file
+    127.0.0.1 magento2.docker
+
     cp composer.env.sample composer.env
     # ..put the correct tokens into composer.env
 
@@ -16,7 +19,20 @@ A collection of Docker images for running Magento 2 through nginx and on the com
 
     docker-compose run cli magento-installer
     docker-compose up -d
+        
+    # .. check settings in global.env - set UPDATE_UID_GID=false if not required
+    
+    docker ps
+    # .. make note of port for meanbee-docker-magento2_web_1 - 0.0.0.0:32785->80/tcp
+    
     docker-compose restart
+    
+    docker-compose run cli bash
+    cd /var/www/magento/
+    bin/magento setup:store-config:set --base-url="http://magento2.docker:32785/"
+    bin/magento setup:store-config:set --base-url-secure="https://magento2.docker:32785/"
+    bin/magento cache:clean
+    
 
 ## Configuration
 
