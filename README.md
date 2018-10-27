@@ -33,6 +33,18 @@ A collection of Docker images for running Magento 2 through nginx and on the com
     bin/magento setup:store-config:set --base-url-secure="https://magento2.docker:32785/"
     bin/magento cache:clean
     
+    # .. optional locale settings
+    bin/magento setup:store-config:set --language="en_GB"
+    bin/magento setup:static-content:deploy en_GB
+    bin/magento setup:store-config:set --timezone="UTC"
+    bin/magento setup:store-config:set --currency="GBP"
+    bin/magento cache:clean
+
+    # .. optional sample data after install
+    bin/magento sampledata:deploy
+    bin/magento setup:upgrade
+    bin/magento cache:clean
+
 
 ## Configuration
 
