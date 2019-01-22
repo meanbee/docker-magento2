@@ -86,15 +86,13 @@ services:
     hostname: magento2-cron.docker
     command: run-cron
     env_file:
-      - ./global.env    
+      - ./global.env
     environment:
       - ENABLE_SENDMAIL=true
     volumes_from:
       - appdata
     links:
       - db
-    env_file:
-      - ./global.env      
 
   appdata:
     image: tianon/true
