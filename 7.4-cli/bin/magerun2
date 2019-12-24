@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+[ "$DEBUG" = "true" ] && set -x
+
+su www-data -s /bin/bash -c "n98-magerun2.phar --root-dir=$MAGENTO_ROOT $*"
