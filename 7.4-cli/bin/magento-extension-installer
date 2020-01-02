@@ -1,0 +1,424 @@
+#!/usr/bin/env php
+<?php
+
+class Magento_Extension_Installer
+{
+    const EXTENSIONS_DIR = "extensions";
+
+    const RETURN_CODE_SUCCESS = 0;
+    const RETURN_CODE_ARGUMENT_ERROR = 1;
+    const RETURN_CODE_MAGENTO_INSTALLER_ERROR = 2;
+    const RETURN_CODE_COMPOSER_ERROR = 3;
+    const RETURN_CODE_SYMLINK_ERROR = 4;
+    const RETURN_CODE_MAGENTO_COMMAND_ERROR = 5;
+
+    protected $display_help = false;
+
+    protected $extension_name;
+    protected $package_name;
+    protected $source_dir;
+
+    protected $extensions_dir;
+    protected $magento_dir;
+    protected $symlink;
+
+    /**
+     * Execute the installer.
+     *
+     * @return int Exit status code
+     */
+    public function run()
+    {
+        // Configure installer options
+        try {
+            $this->configure();
+        } catch (\Exception $e) {
+            if ($this->display_help) {
+                $this->printUsage();
+
+                return static::RETURN_CODE_SUCCESS;
+            } else {
+                $this->error($e->getMessage() . PHP_EOL);
+                $this->printUsage();
+
+                return static::RETURN_CODE_ARGUMENT_ERROR;
+            }
+        }
+
+        // Validate Magento 2 installation
+        if (!$this->isMagentoInstalled($this->magento_dir)) {
+            $this->info("Magento 2 not detected in %s, installing...", $this->magento_dir);
+
+            if (!$this->magentoInstaller()) {
+                $this->error("Magento 2 installation failed!");
+
+                return static::RETURN_CODE_MAGENTO_INSTALLER_ERROR;
+            }
+        }
+
+        // Install extension with Composer
+        $this->info("Installing %s with Composer...", $this->package_name);
+
+        if (!$this->installComposerPackage($this->package_name, $this->magento_dir, $this->source_dir)) {
+            $this->error("Failed to install package!");
+
+            return static::RETURN_CODE_COMPOSER_ERROR;
+        }
+
+        // Create a symlink in Magento's root folder to allow access to templates
+
+        try {
+            $symlink_exists = $this->checkSymlink($this->symlink);
+        } catch (Exception $e) {
+            $this->printSymlinkMessage();
+            $this->error($e->getMessage());
+            return static::RETURN_CODE_SYMLINK_ERROR;
+        }
+
+        if (!$symlink_exists) {
+            $this->printSymlinkMessage();
+            $this->info("Creating a symlink %s...", $this->symlink);
+
+            if (!$this->createSymlink($this->extensions_dir, $this->symlink)) {
+                $this->error("Failed to create a symlink!");
+                return static::RETURN_CODE_SYMLINK_ERROR;
+            }
+        }
+
+        // Configure the installed extension
+        $this->info("Configuring %s with Magento...", $this->extension_name);
+        if (!$this->configureModule($this->extension_name)) {
+            $this->error("Magento 2 cli commands failed!");
+            return static::RETURN_CODE_MAGENTO_COMMAND_ERROR;
+        }
+
+        $this->info("Extension %s installed.", $this->extension_name);
+
+        return static::RETURN_CODE_SUCCESS;
+    }
+
+    /**
+     * Parse the command line options and arguments provided and configure the installer.
+     */
+    protected function configure()
+    {
+        $options = getopt(
+            "h",
+            [
+                "help",
+                "package-name:",
+            ]
+        );
+
+        $arguments = $GLOBALS["argv"];
+
+        foreach ($options as $option => $value) {
+            switch ($option) {
+                case "h":
+                case "help":
+                    $this->display_help = true;
+                    throw new \Exception("Help option specified, stopping further configuration.");
+                    break;
+                case "package-name":
+                    $this->package_name = $value;
+                    break;
+            }
+
+            // Remove options from arguments
+            if ($opt_ind = array_search("--" . $option, $arguments) ?: array_search("-" . $option, $arguments)) {
+                unset($arguments[$opt_ind]);
+
+                if ($value !== false && isset($arguments[$opt_ind + 1]) && $value == $arguments[$opt_ind + 1]) {
+                    unset($arguments[$opt_ind + 1]);
+                }
+            } else if ($opt_ind = array_search("--" . $option . "=" . $value, $arguments)) {
+                unset($arguments[$opt_ind]);
+            }
+        }
+
+        $arguments = array_values(array_filter(array_slice($arguments, 1), function ($value) {
+            return $value !== "--";
+        }));
+
+        if (count($arguments) > 1) {
+            throw new \Exception("Too many arguments!");
+        }
+
+        if (count($arguments) < 1) {
+            throw new \Exception("Must specify the name of the extension to install!");
+        }
+
+        $this->extensions_dir = implode(DIRECTORY_SEPARATOR, ["", static::EXTENSIONS_DIR]);
+
+        $this->extension_name = $arguments[0];
+        $this->source_dir = implode(DIRECTORY_SEPARATOR, [$this->extensions_dir, $this->extension_name]);
+
+        if (!$this->package_name) {
+            $this->package_name = $this->getComposerPackageName($this->source_dir);
+        }
+
+        $this->magento_dir = getenv("MAGENTO_ROOT");
+
+        if (!$this->magento_dir) {
+            throw new \Exception("This script requires the \$MAGENTO_ROOT environment variable to be defined!");
+        }
+
+        $this->symlink = implode(DIRECTORY_SEPARATOR, [$this->magento_dir, static::EXTENSIONS_DIR]);
+    }
+
+    /**
+     * Read the Composer package located at the given directory, verify that it
+     * is a Magento 2 extension and return the Composer package name.
+     *
+     * @param string $package_dir
+     *
+     * @return string
+     * @throws Exception
+     */
+    protected function getComposerPackageName($package_dir)
+    {
+        if (!file_exists($package_dir) || !is_dir($package_dir) || !is_readable($package_dir)) {
+            throw new \Exception(sprintf("Unable to read package directory %s!", $package_dir));
+        }
+
+        $manifest_file = $package_dir . DIRECTORY_SEPARATOR . "composer.json";
+
+        if (!file_exists($manifest_file) || !is_file($manifest_file) || !is_readable($manifest_file)) {
+            throw new \Exception(sprintf("Composer package not found in %s!", $package_dir));
+        }
+
+        $manifest = json_decode(file_get_contents($manifest_file), true);
+
+        if (!is_array($manifest) || !isset($manifest["type"]) || $manifest["type"] !== "magento2-module") {
+            throw new \Exception(sprintf("The Composer package in %s does not appear to be a Magento 2 module!", $package_dir));
+        }
+
+        if (!isset($manifest["name"]) || !$manifest["name"]) {
+            throw new \Exception(sprintf("Unable to determine the Composer package name in %s!", $package_dir));
+        }
+
+        return $manifest["name"];
+    }
+
+    /**
+     * Check if Magento 2 is installed in the given directory.
+     *
+     * @param string $directory
+     *
+     * @return bool
+     */
+    protected function isMagentoInstalled($directory)
+    {
+        $it = new \FilesystemIterator($directory);
+        $env_file = implode(DIRECTORY_SEPARATOR, [$directory, "app", "etc", "env.php"]);
+
+        return $it->valid() && file_exists($env_file);
+    }
+
+    /**
+     * Install a package with Composer.
+     *
+     * Installs in to the current directory, unless the destination directory
+     * is specified.
+     *
+     * If the package source directory is specified, will add it as a symlinked
+     * repository to the project.
+     *
+     * @param string      $package_name
+     * @param string|null $destination_dir The destination Composer project.
+     * @param string|null $source_dir      The source directory for the package.
+     *
+     * @return bool
+     */
+    protected function installComposerPackage($package_name, $destination_dir = null, $source_dir = null)
+    {
+        if ($source_dir) {
+            $repo_config = json_encode([
+                "type"    => "path",
+                "url"     => $source_dir,
+                "options" => [
+                    "symlink" => true,
+                ]
+            ]);
+
+            if (!$this->composer("config repositories.$package_name '$repo_config'", $destination_dir)) {
+                return false;
+            }
+        }
+
+        return $this->composer("require $package_name @dev", $destination_dir);
+    }
+
+    /**
+     * Check if the given symlink file exists.
+     *
+     * @param string $symlink
+     *
+     * @return bool
+     * @throws Exception
+     */
+    protected function checkSymlink($symlink)
+    {
+        if (file_exists($symlink) && !is_link($symlink)) {
+            throw new \Exception(sprintf("File %s exists, but is not a symlink!", $symlink));
+        }
+
+        return file_exists($symlink);
+    }
+
+    /**
+     * Create a symlink.
+     *
+     * @param string $target
+     * @param string $link
+     *
+     * @return bool
+     */
+    protected function createSymlink($target, $link)
+    {
+        @mkdir(dirname($link), 0755, true);
+        return symlink($target, $link);
+    }
+
+    /**
+     * Run Magento 2 cli commands to enable and configure the given module.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function configureModule($name)
+    {
+        return $this->magentoCommand("module:enable $name")
+            && $this->magentoCommand("setup:upgrade")
+            && $this->magentoCommand("setup:di:compile")
+            && $this->magentoCommand("cache:flush");
+    }
+
+    /**
+     * Run the Magento 2 installer.
+     *
+     * @return bool
+     */
+    protected function magentoInstaller()
+    {
+        passthru("magento-installer", $status);
+
+        return $status === 0;
+    }
+
+    /**
+     * Run a Magento 2 CLI command.
+     *
+     * @param string $command
+     *
+     * @return bool
+     */
+    protected function magentoCommand($command)
+    {
+        $cmd = [
+            "magento-command",
+            $command
+        ];
+
+        passthru(implode(" ", $cmd), $status);
+
+        return $status === 0;
+    }
+
+    /**
+     * Run a Composer command.
+     *
+     * @param string $command
+     * @param string $working_dir Set the working directory.
+     *
+     * @return bool
+     */
+    protected function composer($command, $working_dir = null)
+    {
+        $cmd = ["composer"];
+
+        if ($working_dir) {
+            $cmd[] = "--working-dir=$working_dir";
+        }
+
+        $cmd[] = $command;
+
+        passthru(implode(" ", $cmd), $status);
+
+        return $status === 0;
+    }
+
+    /**
+     * Output the usage message.
+     */
+    protected function printUsage()
+    {
+        $usage = /** @lang text */
+            <<<USAGE
+Usage:
+    magento-extension-installer [--package-name=<package>] <extension_name>
+
+Arguments:
+    extension_name - the name of the Magento 2 extension to install
+
+Options:
+    --package-name    The composer package name to require. If not specified,
+                      the installer will attempt to determine the package name
+                      from the composer.json file in the extension directory.
+    --help, -h        Print this help message
+
+Description:
+    Installs a Magento 2 extension from /extensions/<extension_name>/ directory
+    into a Magento 2 installation defined by the \$MAGENTO_ROOT environment
+    variable. Expects the extension to contain a Composer package.
+    
+    If the destination directory is empty, runs the Magento 2 installer first.
+
+USAGE;
+
+        $this->info($usage);
+    }
+
+    protected function printSymlinkMessage()
+    {
+        $message = /** @lang text */
+            <<<MSG
+
+Magento 2 requires all paths to template files to be located within the Magento
+root directory for security. Since the extension code is symlinked by Composer
+an additional symlink to the extensions directory is required in Magento root.
+
+MSG;
+
+        $this->info($message);
+    }
+
+    /**
+     * Output an informational message. Any additional parameters will be
+     * passed into a sprintf() along with the message before outputing it.
+     *
+     * @param string $message
+     * @param array  ...$parameters
+     */
+    protected function info($message, ...$parameters)
+    {
+        fwrite(STDOUT, sprintf($message, ...$parameters) . PHP_EOL);
+    }
+
+    /**
+     * Output an error message. Any additional parameters will be passed into a
+     * sprintf() along with the message before outputing it.
+     *
+     * @param string $message
+     * @param array  ...$parameters
+     */
+    protected function error($message, ...$parameters)
+    {
+        fwrite(STDERR, sprintf($message, ...$parameters) . PHP_EOL);
+    }
+}
+
+$installer = new Magento_Extension_Installer();
+
+exit($installer->run());

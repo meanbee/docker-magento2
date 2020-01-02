@@ -157,5 +157,111 @@
     },
     "phpExtensions": [],
     "xdebugVersion": "latest"
+  },
+  "7.3-cli": {
+    "version": "7.3",
+    "flavour": "cli",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "bin/mageconfigsync": {
+        "executable": true
+      },
+      "bin/magedbm2": {
+        "executable": true
+      },
+      "bin/magento-command": {
+        "executable": true
+      },
+      "bin/magento-extension-installer": {
+        "_disable_variables": true,
+        "executable": true
+      },
+      "bin/magento-installer": {
+        "executable": true
+      },
+      "bin/magerun2": {
+        "executable": true
+      },
+      "bin/run-cron": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php-cli.ini": {},
+      "etc/php-xdebug.ini": {}
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "latest"
+  },
+  "7.3-fpm": {
+    "version": "7.3",
+    "flavour": "fpm",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php-fpm.ini": {},
+      "etc/php-xdebug.ini": {},
+      "etc/php-fpm.conf": {}
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "latest"
+  },
+  "7.4-cli": {
+    "version": "7.4",
+    "flavour": "cli",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "bin/mageconfigsync": {
+        "executable": true
+      },
+      "bin/magedbm2": {
+        "executable": true
+      },
+      "bin/magento-command": {
+        "executable": true
+      },
+      "bin/magento-extension-installer": {
+        "_disable_variables": true,
+        "executable": true
+      },
+      "bin/magento-installer": {
+        "executable": true
+      },
+      "bin/magerun2": {
+        "executable": true
+      },
+      "bin/run-cron": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php-cli.ini": {},
+      "etc/php-xdebug.ini": {}
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "latest"
+  },
+  "7.4-fpm": {
+    "version": "7.4",
+    "flavour": "fpm",
+    "files": {
+      "Dockerfile": {},
+      "docker-entrypoint.sh": {
+        "executable": true
+      },
+      "etc/mail.ini": {},
+      "etc/php-fpm.ini": {},
+      "etc/php-xdebug.ini": {},
+      "etc/php-fpm.conf": {}
+    },
+    "phpExtensions": [],
+    "xdebugVersion": "latest"
   }
 }
