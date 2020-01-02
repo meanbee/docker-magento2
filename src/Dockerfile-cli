@@ -2,7 +2,7 @@
 $imageSpecificPackages = [
     'cron',
     'rsyslog',
-    'mysql-client',
+    (version_compare($version, '7.0', '<=') ? 'mysql-client' : 'default-mysql-client'),
     'git'
 ];
 
