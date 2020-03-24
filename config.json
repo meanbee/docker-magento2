@@ -34,7 +34,7 @@
       "etc/php-xdebug.ini": {}
     },
     "phpExtensions": ["mcrypt"],
-    "xDebugVersion": "latest"
+    "xdebugVersion": "2.8.1"
   },
   "7.0-fpm": {
     "version": "7.0",
@@ -50,7 +50,7 @@
       "etc/php-fpm.conf": {}
     },
     "phpExtensions": ["mcrypt"],
-    "xdebugVersion": "latest"
+    "xdebugVersion": "2.8.1"
   },
   "7.1-cli": {
     "version": "7.1",
