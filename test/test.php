@@ -39,7 +39,8 @@ $required_extensions = array(
   'simplexml',
   'xsl',
   'zip',
-  'intl'
+  'intl',
+  'sockets'
 );
 
 if (version_compare(phpversion(), '7.2.0', '<')) {

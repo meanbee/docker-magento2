@@ -55,7 +55,8 @@ RUN docker-php-ext-configure \
   'zip',
   'soap',
   'bcmath',
-  'pcntl'
+  'pcntl',
+  'sockets'
 ], $imageSpecificPhpExtensions ?? []);
 ?>
 

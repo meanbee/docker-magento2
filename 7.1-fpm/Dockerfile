@@ -36,6 +36,7 @@ RUN docker-php-ext-install \
   soap \ 
   bcmath \ 
   pcntl \ 
+  sockets \ 
   mcrypt
 
 # Install Xdebug (but don't enable)
