@@ -396,7 +396,7 @@ MSG;
 
     /**
      * Output an informational message. Any additional parameters will be
-     * passed into a sprintf() along with the message before outputing it.
+     * passed into a sprintf() along with the message before outputting it.
      *
      * @param string $message
      * @param array  ...$parameters
@@ -408,7 +408,7 @@ MSG;
 
     /**
      * Output an error message. Any additional parameters will be passed into a
-     * sprintf() along with the message before outputing it.
+     * sprintf() along with the message before outputting it.
      *
      * @param string $message
      * @param array  ...$parameters
