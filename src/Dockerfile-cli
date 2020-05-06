@@ -3,7 +3,8 @@ $imageSpecificPackages = [
     'cron',
     'rsyslog',
     (version_compare($version, '7.0', '<=') ? 'mysql-client' : 'default-mysql-client'),
-    'git'
+    'git',
+    'zip',
 ];
 
 include "Dockerfile";
