@@ -22,6 +22,7 @@ RUN apt-get update \
     rsyslog \ 
     default-mysql-client \ 
     git \ 
+    zip \ 
     libzip-dev
 
 # Configure the gd library
